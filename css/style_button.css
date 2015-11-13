@@ -1,0 +1,26 @@
+#select_button {
+    display: none;
+}
+
+#services {
+    display: none;
+}
+
+.jumbotron {
+    margin-bottom: 0px;
+}
+
+
+.div_final_list {
+    margin-bottom: 9px;
+}
+
+.span_final_list {
+    float: left;
+    width: 9%;
+    font-size: large;
+}
+
+.input_final_list {
+    width: 50%;
+}

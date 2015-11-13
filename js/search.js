@@ -50,6 +50,7 @@ var createClickHandler = function(i) {
 }
 
 function displayImages() {
+    $("#services").show();
     var contentDiv = document.getElementById("content");
     contentDiv.innerHTML = "";
     for (var i = 0; i < words.length; i++) {
@@ -89,6 +90,7 @@ function displayPun() {
         return this.options[this.value];
     }).get();
     var select = document.createElement('select');
+    select.id = "select_final_list"
     select.className = "image-picker show-html";
     select.setAttribute("multiple", "multiple");
     var emptyOpt = document.createElement("option")
@@ -100,15 +102,19 @@ function displayPun() {
     var contentDiv = document.getElementById("content");
     contentDiv.innerHTML = "";
     var pun = document.createElement("div");
+    pun.className = "group_label" 
     pun.innerHTML = words.join(" ");
     var urls = document.createElement("div");
     for (var i =0; i < words.length; i++) {
         var url = document.createElement("div");
+        url.className = "div_final_list"
         var name = document.createElement("span");
+        name.className = "span_final_list"
         name.innerHTML = words[i] + ": ";
         url.appendChild(name);
         var btn_id = "clip_btn" + i
         var input = document.createElement("input");
+        input.className = "input_final_list"
         input.id = btn_id;
         input.setAttribute("value", options[i].dataset.imgSrc);
         url.appendChild(input);
