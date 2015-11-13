@@ -2,23 +2,51 @@ google.load('search', '1');
 google.setOnLoadCallback(OnLoad);
 
 var RESULTS_NUM = 8;
+var PAGES_NUM = 8;
 var images;
 var words;
 var called;
 
 function searchComplete(imageSearch, pos) {
+    if (imageSearch.results && imageSearch.results.length > 0) {
+        imageSearch.results.forEach(function(result) {
+            images[pos].push(result.url);
+        });
+        curr = imageSearch.cursor.currentPageIndex;
+        if (curr < PAGES_NUM) {
+            imageSearch.gotoPage(curr + 1);
+        }
+    }
+    called = called + 1;
+    if (called == (words.length * PAGES_NUM)) {
+        displayImages();
+    }
+}
 
-  if (imageSearch.results && imageSearch.results.length > 0) {
-      var results_urls = []
-      imageSearch.results.forEach(function(result) {
-          results_urls.push(result.url)
-      });
-      images[pos] = results_urls
-      called = called + 1
-      if (called == words.length) {
-          displayImages();
-      }
-  }
+var createClickHandler = function(i) {
+    return function() {
+        old_page = $("#sel_" + i).data("page");
+        if (old_page < PAGES_NUM) {
+            page = old_page + 1;
+            $("#sel_" + i).data('picker').destroy();
+            var select = document.createElement('select');
+            select.className = "image-picker masonry show-html";
+            $(select).data("page", page);
+            for (var j = 0; j < RESULTS_NUM; j++) {
+                var imgContainer = document.createElement('option');
+                imgContainer.dataset.imgSrc =  images[i][page * RESULTS_NUM + j];
+                imgContainer.setAttribute("value", j);
+                select.appendChild(imgContainer);
+            }
+            $("#sel_" + i).replaceWith($(select));
+            select.id = "sel_" + i;
+            $(select).imagepicker();
+            $(select).masonry({
+                itemSelector: 'option',
+                columnWidth: 400
+            });
+        }
+    };
 }
 
 function displayImages() {
@@ -27,6 +55,8 @@ function displayImages() {
     for (var i = 0; i < words.length; i++) {
         var select = document.createElement('select');
         select.className = "image-picker masonry show-html";
+        select.id = "sel_" + i;
+        $(select).data("page", 0);
         for (var j = 0; j < RESULTS_NUM; j++) {
             var imgContainer = document.createElement('option');
             imgContainer.dataset.imgSrc =  images[i][j];
@@ -35,7 +65,14 @@ function displayImages() {
         }
         var label = document.createElement('div');
         label.className = "group_label";
-        label.innerHTML = words[i];
+        var name = document.createElement('span');
+        name.innerHTML = words[i];
+        label.appendChild(name);
+        var more_btn = document.createElement('input');
+        more_btn.type = "button";
+        more_btn.setAttribute("value", "More");
+        $(more_btn).click(createClickHandler(i));
+        label.appendChild(more_btn);
         contentDiv.appendChild(label);
         contentDiv.appendChild(select);
     }
@@ -65,7 +102,7 @@ function displayPun() {
     var pun = document.createElement("div");
     pun.innerHTML = words.join(" ");
     var urls = document.createElement("div");
-    for (i =0; i < words.length; i++) {
+    for (var i =0; i < words.length; i++) {
         var url = document.createElement("div");
         var name = document.createElement("span");
         name.innerHTML = words[i] + ": ";
@@ -91,8 +128,11 @@ function displayPun() {
 }
 
 function search() {
-    images = []
     words = document.getElementById("search_bar").value.split(" ");
+    images = [];
+    for (var i = 0; i < words.length; i++) {
+        images[i] = [];
+    }
     called = 0
     for (var i = 0; i < words.length; i++) {
         var word = words[i]
