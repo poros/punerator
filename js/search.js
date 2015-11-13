@@ -106,18 +106,22 @@ function displayImages() {
 }
 
 function displayPun() {
-    var options = $("select").map(function(idx, el) {
-        return this.options[this.value];
+    var opts_urls = $("select").map(function(idx, el) {
+        return this.options[this.value].dataset.imgSrc;
     }).get();
     var select = document.createElement('select');
     select.id = "select_final_list"
     select.className = "image-picker show-html";
-    select.setAttribute("multiple", "multiple");
     var emptyOpt = document.createElement("option")
     emptyOpt.setAttribute("value", "");
     select.appendChild(emptyOpt)
-    options.forEach(function(option) {
-        select.appendChild(option);
+    var k = 1;
+    opts_urls.forEach(function(url) {
+        var imgContainer = document.createElement('option');
+        imgContainer.dataset.imgSrc = url;
+        imgContainer.setAttribute("value", k);
+        k += 1;
+        select.appendChild(imgContainer);
     });
     var contentDiv = document.getElementById("content");
     contentDiv.innerHTML = "";
@@ -136,7 +140,7 @@ function displayPun() {
         var input = document.createElement("input");
         input.className = "input_final_list"
         input.id = btn_id;
-        input.setAttribute("value", options[i].dataset.imgSrc);
+        input.setAttribute("value", opts_urls[i]);
         url.appendChild(input);
         var button = document.createElement("button");
         button.className = "clip_btn"
@@ -149,7 +153,7 @@ function displayPun() {
     contentDiv.appendChild(pun);
     contentDiv.appendChild(select);
     contentDiv.appendChild(urls);
-    $("select").imagepicker({limit: 0});
+    $(select).imagepicker();
     $("#select_button").hide();
 }
 
