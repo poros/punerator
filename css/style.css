@@ -208,6 +208,7 @@ SERVICES
 }
 .service-item h3{
 	margin-bottom: 60px;
+        font-family: initial;
 }
 
 .service-item .icon .icon-pen{
