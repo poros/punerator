@@ -26,26 +26,35 @@ function searchComplete(imageSearch, pos) {
 var createClickHandler = function(i) {
     return function() {
         old_page = $("#sel_" + i).data("page");
-        if (old_page < PAGES_NUM) {
-            page = old_page + 1;
-            $("#sel_" + i).data('picker').destroy();
-            var select = document.createElement('select');
-            select.className = "image-picker masonry show-html";
-            $(select).data("page", page);
-            for (var j = 0; j < RESULTS_NUM; j++) {
-                var imgContainer = document.createElement('option');
-                imgContainer.dataset.imgSrc =  images[i][page * RESULTS_NUM + j];
-                imgContainer.setAttribute("value", j);
-                select.appendChild(imgContainer);
-            }
-            $("#sel_" + i).replaceWith($(select));
-            select.id = "sel_" + i;
-            $(select).imagepicker();
-            $(select).masonry({
-                itemSelector: 'option',
-                columnWidth: 400
-            });
+        page = (old_page + 1) % PAGES_NUM;
+        $("#sel_" + i).data('picker').destroy();
+        var select = document.createElement('select');
+        select.className = "image-picker masonry show-html";
+        $(select).data("page", page);
+        for (var j = 0; j < RESULTS_NUM; j++) {
+            var imgContainer = document.createElement('option');
+            imgContainer.dataset.imgSrc =  images[i][page * RESULTS_NUM + j];
+            imgContainer.setAttribute("value", j);
+            select.appendChild(imgContainer);
         }
+        $("#sel_" + i).replaceWith($(select));
+        select.id = "sel_" + i;
+        $(select).imagepicker();
+        $("img").error(function() {
+            broken_url = $(this).attr("src");
+            var l = 0;
+            for (var i = 0; i < images.length; i++) {
+                if (images[i].indexOf(broken_url) != -1) {
+                    break;
+                }
+            }
+            var url = images[i][Math.floor(Math.random() * images[i].length)];
+            $(this).attr("src", url);
+        });
+        $(select).masonry({
+            itemSelector: 'option',
+            columnWidth: 400
+        });
     };
 }
 
@@ -77,6 +86,17 @@ function displayImages() {
         contentDiv.appendChild(select);
     }
     $("select").imagepicker();
+    $("img").error(function() {
+        broken_url = $(this).attr("src");
+        var l = 0;
+        for (var i = 0; i < images.length; i++) {
+            if (images[i].indexOf(broken_url) != -1) {
+                break;
+            }
+        }
+        var url = images[i][Math.floor(Math.random() * images[i].length)];
+        $(this).attr("src", url);
+    });
     $("select").masonry({
         itemSelector: 'option',
         columnWidth: 400
