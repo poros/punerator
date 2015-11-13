@@ -31,7 +31,6 @@ function displayImages() {
             var imgContainer = document.createElement('option');
             imgContainer.setAttribute("data-img-src", images[i][j]);
             imgContainer.setAttribute("value", i * RESULTS_NUM + j);
-            imgContainer.innerHTML = "Name"
             select.appendChild(imgContainer);
         }
         var label = document.createElement('div');
