@@ -19,6 +19,7 @@
     float: left;
     width: 9%;
     font-size: large;
+    font-family: serif;
 }
 
 .input_final_list {
@@ -28,7 +29,7 @@
 #button_multiple_imgs {
     margin-left: 10px;
     margin-bottom: 20px;
-    font-size: serif;
+    font-size: x-large;
     padding-top: 6px;
 }
 
