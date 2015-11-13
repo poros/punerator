@@ -33,6 +33,6 @@
     padding-top: 6px;
 }
 
-#search_button {
+#search_button, #lucky_button {
     color: #000000;
 }
