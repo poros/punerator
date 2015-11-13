@@ -29,7 +29,7 @@ function displayImages() {
         select.className = "image-picker masonry show-html";
         for (var j = 0; j < RESULTS_NUM; j++) {
             var imgContainer = document.createElement('option');
-            imgContainer.setAttribute("data-img-src", images[i][j]);
+            imgContainer.dataset.imgSrc =  images[i][j];
             imgContainer.setAttribute("value", j);
             select.appendChild(imgContainer);
         }
@@ -73,11 +73,11 @@ function displayPun() {
         var btn_id = "clip_btn" + i
         var input = document.createElement("input");
         input.id = btn_id;
-        input.setAttribute("value", options[i].getAttribute("data-img-src"));
+        input.setAttribute("value", options[i].dataset.imgSrc);
         url.appendChild(input);
         var button = document.createElement("button");
         button.className = "clip_btn"
-        button.setAttribute("data-clipboard-target", "#" + btn_id);
+        button.dataset.clipboardTarget = "#" + btn_id;
         button.innerHTML = '<img src="assets/clippy.svg" width="13" alt="Copy to clipboard">';
         url.appendChild(button);
         urls.appendChild(url);
