@@ -27,6 +27,15 @@
             <input type='button' id="select_button" value='Select'  onClick='displayPun()'>
         </div>
         <div id="branding"></div>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#search_bar").keyup(function(event) {
+                    if(event.keyCode == 13) {
+                        $("#search_button").click();
+                    }
+                });
+            });
+        </script>
     </body>
 
 </html>
