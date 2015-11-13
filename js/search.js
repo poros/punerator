@@ -178,6 +178,10 @@ function search() {
         imageSearch.setRestriction(
             google.search.ImageSearch.RESTRICT_IMAGESIZE,
             google.search.ImageSearch.IMAGESIZE_MEDIUM);
+        imageSearch.setRestriction(
+          google.search.Search.RESTRICT_SAFESEARCH,
+          google.search.Search.SAFESEARCH_STRICT
+        );
         imageSearch.execute(word);
     }
 }
