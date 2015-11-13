@@ -24,26 +24,22 @@ function searchComplete(imageSearch, pos) {
 function displayImages() {
     var contentDiv = document.getElementById("content");
     contentDiv.innerHTML = "";
-    var select = document.createElement('select');
-    select.className = "image-picker masonry show-html";
-    select.setAttribute("multiple", "multiple")
     for (var i = 0; i < words.length; i++) {
-        var row = document.createElement("optgroup");
-        row.setAttribute("label", words[i]);
+        var select = document.createElement('select');
+        select.className = "image-picker masonry show-html";
         for (var j = 0; j < RESULTS_NUM; j++) {
             var imgContainer = document.createElement('option');
             imgContainer.setAttribute("data-img-src", images[i][j]);
             imgContainer.setAttribute("value", i * RESULTS_NUM + j);
             imgContainer.innerHTML = "Name"
-            row.appendChild(imgContainer);
+            select.appendChild(imgContainer);
         }
-        select.appendChild(row)
+        contentDiv.appendChild(select);
     }
-    contentDiv.appendChild(select);
-    $("select").imagepicker({limit: words.length});
-    $("optgroup").masonry({
-      itemSelector: 'option',
-      columnWidth: 400
+    $("select").imagepicker();
+    $("select").masonry({
+        itemSelector: 'option',
+        columnWidth: 400
     });
 }
 
