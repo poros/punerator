@@ -30,7 +30,7 @@ function displayImages() {
         for (var j = 0; j < RESULTS_NUM; j++) {
             var imgContainer = document.createElement('option');
             imgContainer.setAttribute("data-img-src", images[i][j]);
-            imgContainer.setAttribute("value", i * RESULTS_NUM + j);
+            imgContainer.setAttribute("value", j);
             select.appendChild(imgContainer);
         }
         var label = document.createElement('div');
@@ -44,12 +44,50 @@ function displayImages() {
         itemSelector: 'option',
         columnWidth: 400
     });
+    $("#select_button").show();
 }
 
 function displayPun() {
+    var options = $("select").map(function(idx, el) {
+        return this.options[this.value];
+    }).get();
+    var select = document.createElement('select');
+    select.className = "image-picker show-html";
+    select.setAttribute("multiple", "multiple");
+    var emptyOpt = document.createElement("option")
+    emptyOpt.setAttribute("value", "");
+    select.appendChild(emptyOpt)
+    options.forEach(function(option) {
+        select.appendChild(option);
+    });
     var contentDiv = document.getElementById("content");
     contentDiv.innerHTML = "";
+    var pun = document.createElement("div");
+    pun.innerHTML = words.join(" ");
+    var urls = document.createElement("div");
+    for (i =0; i < words.length; i++) {
+        var url = document.createElement("div");
+        var name = document.createElement("span");
+        name.innerHTML = words[i] + ": ";
+        url.appendChild(name);
+        var btn_id = "clip_btn" + i
+        var input = document.createElement("input");
+        input.id = btn_id;
+        input.setAttribute("value", options[i].getAttribute("data-img-src"));
+        url.appendChild(input);
+        var button = document.createElement("button");
+        button.className = "clip_btn"
+        button.setAttribute("data-clipboard-target", "#" + btn_id);
+        button.innerHTML = '<img src="assets/clippy.svg" width="13" alt="Copy to clipboard">';
+        url.appendChild(button);
+        urls.appendChild(url);
+    }
+    new Clipboard('.clip_btn');
+    contentDiv.appendChild(pun);
+    contentDiv.appendChild(select);
+    contentDiv.appendChild(urls);
     $("select").imagepicker({limit: 0});
+    $("#select_button").hide();
 }
 
 function search() {
