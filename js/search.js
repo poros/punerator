@@ -6,6 +6,7 @@ var PAGES_NUM = 8;
 var images;
 var words;
 var called;
+var random_search = false;
 
 function searchComplete(imageSearch, pos) {
     if (imageSearch.results && imageSearch.results.length > 0) {
@@ -145,6 +146,7 @@ function displayRandomPun() {
         opt.dataset.imgSrc = url;
     });
     $("#next_button").show();
+    $("#select_button").show();
 }
 
 function displayImages() {
@@ -249,6 +251,7 @@ function displayPun() {
 }
 
 function search() {
+    random_search = false;
     words = document.getElementById("search_bar").value.split(" ");
     images = [];
     for (var i = 0; i < words.length; i++) {
@@ -272,6 +275,7 @@ function search() {
 }
 
 function searchLucky() {
+    random_search = true;
     words = document.getElementById("search_bar").value.split(" ");
     images = [];
     for (var i = 0; i < words.length; i++) {
@@ -291,6 +295,14 @@ function searchLucky() {
           google.search.Search.SAFESEARCH_STRICT
         );
         imageSearch.execute(word);
+    }
+}
+
+function displayFlipPun() {
+    if (random_search) {
+        displayRandomPun();
+    } else {
+        displayPun();
     }
 }
 
