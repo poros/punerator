@@ -50,6 +50,10 @@ var createClickHandler = function(i) {
             }
             var url = images[i][Math.floor(Math.random() * images[i].length)];
             $(this).attr("src", url);
+            var opt = $("option").filter(function(idx) {
+                return this.dataset.imgSrc == broken_url;
+            }).get(0)
+            opt.dataset.imgSrc = url;
         });
         $(select).masonry({
             itemSelector: 'option',
