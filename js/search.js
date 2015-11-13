@@ -34,6 +34,10 @@ function displayImages() {
             imgContainer.innerHTML = "Name"
             select.appendChild(imgContainer);
         }
+        var label = document.createElement('div');
+        label.className = "group_label";
+        label.innerHTML = words[i];
+        contentDiv.appendChild(label);
         contentDiv.appendChild(select);
     }
     $("select").imagepicker();
