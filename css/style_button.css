@@ -27,6 +27,11 @@
 
 #button_multiple_imgs {
     margin-left: 10px;
+    margin-bottom: 20px;
     font-size: initial;
     padding-top: 6px;
+}
+
+#search_button {
+    color: #000000;
 }

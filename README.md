@@ -1,2 +1,0 @@
-# punerator
-Visual Pun Generator

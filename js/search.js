@@ -104,6 +104,7 @@ function displayImages() {
         columnWidth: 400
     });
     $("#select_button").show();
+    document.getElementById('services').scrollIntoView();
 }
 
 function displayPun() {
@@ -131,7 +132,7 @@ function displayPun() {
         url.className = "div_final_list"
         var name = document.createElement("span");
         name.className = "span_final_list"
-        name.innerHTML = words[i] + ": ";
+        name.innerHTML = words[i];
         url.appendChild(name);
         var btn_id = "clip_btn" + i
         var input = document.createElement("input");
