@@ -70,6 +70,7 @@ function displayImages() {
         name.innerHTML = words[i];
         label.appendChild(name);
         var more_btn = document.createElement('input');
+        more_btn.id = "button_multiple_imgs"
         more_btn.type = "button";
         more_btn.setAttribute("value", "More");
         $(more_btn).click(createClickHandler(i));

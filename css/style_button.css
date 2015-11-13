@@ -24,3 +24,9 @@
 .input_final_list {
     width: 50%;
 }
+
+#button_multiple_imgs {
+    margin-left: 10px;
+    font-size: initial;
+    padding-top: 6px;
+}
