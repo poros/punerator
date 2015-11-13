@@ -1,7 +1,7 @@
 google.load('search', '1');
 google.setOnLoadCallback(OnLoad);
 
-var RESULTS_NUM = 3;
+var RESULTS_NUM = 8;
 var images;
 var words;
 var called;
@@ -22,21 +22,34 @@ function searchComplete(imageSearch, pos) {
 }
 
 function displayImages() {
-    var contentDiv = document.getElementById('content');
-    contentDiv.innerHTML = ""
-    for (var i = 0; i < RESULTS_NUM; i++) {
-        var row = document.createElement('div');
-        for (var j = 0; j < words.length; j++) {
-            var imgContainer = document.createElement('span');
-            imgContainer.className = "ImageContainer"
-            var newImg = document.createElement('img');
-            newImg.className = "ImageResult"
-            newImg.src = images[j][i];
-            imgContainer.appendChild(newImg);
-            row.appendChild(imgContainer);
+    var contentDiv = document.getElementById("content");
+    contentDiv.innerHTML = "";
+    for (var i = 0; i < words.length; i++) {
+        var select = document.createElement('select');
+        select.className = "image-picker masonry show-html";
+        for (var j = 0; j < RESULTS_NUM; j++) {
+            var imgContainer = document.createElement('option');
+            imgContainer.setAttribute("data-img-src", images[i][j]);
+            imgContainer.setAttribute("value", i * RESULTS_NUM + j);
+            select.appendChild(imgContainer);
         }
-        contentDiv.appendChild(row)
+        var label = document.createElement('div');
+        label.className = "group_label";
+        label.innerHTML = words[i];
+        contentDiv.appendChild(label);
+        contentDiv.appendChild(select);
     }
+    $("select").imagepicker();
+    $("select").masonry({
+        itemSelector: 'option',
+        columnWidth: 400
+    });
+}
+
+function displayPun() {
+    var contentDiv = document.getElementById("content");
+    contentDiv.innerHTML = "";
+    $("select").imagepicker({limit: 0});
 }
 
 function search() {
