@@ -83,6 +83,7 @@ function displayImages() {
         name.innerHTML = words[i];
         label.appendChild(name);
         var more_btn = document.createElement('input');
+        more_btn.id = "button_multiple_imgs"
         more_btn.type = "button";
         more_btn.setAttribute("value", "More");
         $(more_btn).click(createClickHandler(i));
@@ -107,6 +108,7 @@ function displayImages() {
         columnWidth: 400
     });
     $("#select_button").show();
+    document.getElementById('services').scrollIntoView();
 }
 
 function displayPun() {
@@ -138,7 +140,7 @@ function displayPun() {
         url.className = "div_final_list"
         var name = document.createElement("span");
         name.className = "span_final_list"
-        name.innerHTML = words[i] + ": ";
+        name.innerHTML = words[i];
         url.appendChild(name);
         var btn_id = "clip_btn" + i
         var input = document.createElement("input");
