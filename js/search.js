@@ -26,6 +26,7 @@ function displayImages() {
     contentDiv.innerHTML = "";
     var select = document.createElement('select');
     select.className = "image-picker masonry show-html";
+    select.setAttribute("multiple", "multiple")
     for (var i = 0; i < words.length; i++) {
         var row = document.createElement("optgroup");
         row.setAttribute("label", words[i]);
@@ -39,11 +40,17 @@ function displayImages() {
         select.appendChild(row)
     }
     contentDiv.appendChild(select);
-    $("select").imagepicker();
+    $("select").imagepicker({limit: words.length});
     $("optgroup").masonry({
       itemSelector: 'option',
       columnWidth: 400
     });
+}
+
+function displayPun() {
+    var contentDiv = document.getElementById("content");
+    contentDiv.innerHTML = "";
+    $("select").imagepicker({limit: 0});
 }
 
 function search() {
