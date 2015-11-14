@@ -252,6 +252,7 @@ function displayPun() {
 
 function search() {
     random_search = false;
+    $("#select_btn_label").html("Click to create your cool graphical pun");
     words = document.getElementById("search_bar").value.split(" ");
     images = [];
     for (var i = 0; i < words.length; i++) {
@@ -276,6 +277,7 @@ function search() {
 
 function searchLucky() {
     random_search = true;
+    $("#select_btn_label").html("Next pun");
     words = document.getElementById("search_bar").value.split(" ");
     images = [];
     for (var i = 0; i < words.length; i++) {
