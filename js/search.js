@@ -248,6 +248,7 @@ function displayPun() {
     contentDiv.appendChild(urls);
     $(select).imagepicker();
     $("#select_button").hide();
+    document.getElementById('services').scrollIntoView();
 }
 
 function search() {
