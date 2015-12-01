@@ -6,6 +6,7 @@ var PAGES_NUM = 8;
 var images;
 var words;
 var called;
+var random_search = false;
 
 function searchComplete(imageSearch, pos) {
     if (imageSearch.results && imageSearch.results.length > 0) {
@@ -20,6 +21,22 @@ function searchComplete(imageSearch, pos) {
     called = called + 1;
     if (called == (words.length * PAGES_NUM)) {
         displayImages();
+    }
+}
+
+function searchCompleteLucky(imageSearch, pos) {
+    if (imageSearch.results && imageSearch.results.length > 0) {
+        imageSearch.results.forEach(function(result) {
+            images[pos].push(result.url);
+        });
+        curr = imageSearch.cursor.currentPageIndex;
+        if (curr < PAGES_NUM) {
+            imageSearch.gotoPage(curr + 1);
+        }
+    }
+    called = called + 1;
+    if (called == (words.length * PAGES_NUM)) {
+        displayRandomPun();
     }
 }
 
@@ -60,6 +77,76 @@ var createClickHandler = function(i) {
             columnWidth: 400
         });
     };
+}
+
+function displayRandomPun() {
+    $("#services").show();
+    var select = document.createElement('select');
+    select.id = "select_final_list"
+    select.className = "image-picker show-html";
+    var emptyOpt = document.createElement("option")
+    emptyOpt.setAttribute("value", "");
+    select.appendChild(emptyOpt)
+    var k = 1;
+    var opts_urls = [];
+    for (var i =0; i< words.length; i++) {
+        opts_urls.push(images[i][Math.floor(Math.random() * images[i].length)]);
+    }
+    opts_urls.forEach(function(url) {
+        var imgContainer = document.createElement('option');
+        imgContainer.dataset.imgSrc = url;
+        imgContainer.setAttribute("value", k);
+        k += 1;
+        select.appendChild(imgContainer);
+    });
+    var contentDiv = document.getElementById("content");
+    contentDiv.innerHTML = "";
+    var pun = document.createElement("div");
+    pun.className = "group_label"
+    pun.innerHTML = words.join(" ");
+    var urls = document.createElement("div");
+    for (var i =0; i < words.length; i++) {
+        var url = document.createElement("div");
+        url.className = "div_final_list"
+        var name = document.createElement("span");
+        name.className = "span_final_list"
+        name.innerHTML = words[i];
+        url.appendChild(name);
+        var btn_id = "clip_btn" + i
+        var input = document.createElement("input");
+        input.className = "input_final_list"
+        input.id = btn_id;
+        input.setAttribute("value", opts_urls[i]);
+        url.appendChild(input);
+        var button = document.createElement("button");
+        button.className = "clip_btn"
+        button.dataset.clipboardTarget = "#" + btn_id;
+        button.innerHTML = '<img src="assets/clippy.svg" width="13" alt="Copy to clipboard">';
+        url.appendChild(button);
+        urls.appendChild(url);
+    }
+    new Clipboard('.clip_btn');
+    contentDiv.appendChild(pun);
+    contentDiv.appendChild(select);
+    contentDiv.appendChild(urls);
+    $(select).imagepicker();
+    $("img").error(function() {
+        broken_url = $(this).attr("src");
+        var l = 0;
+        for (var i = 0; i < images.length; i++) {
+            if (images[i].indexOf(broken_url) != -1) {
+                break;
+            }
+        }
+        var url = images[i][Math.floor(Math.random() * images[i].length)];
+        $(this).attr("src", url);
+        var opt = $("option").filter(function(idx) {
+            return this.dataset.imgSrc == broken_url;
+        }).get(0)
+        opt.dataset.imgSrc = url;
+    });
+    $("#next_button").show();
+    $("#select_button").show();
 }
 
 function displayImages() {
@@ -164,6 +251,8 @@ function displayPun() {
 }
 
 function search() {
+    random_search = false;
+    $("#select_btn_label").html("Click to create your cool graphical pun");
     words = document.getElementById("search_bar").value.split(" ");
     images = [];
     for (var i = 0; i < words.length; i++) {
@@ -183,6 +272,39 @@ function search() {
           google.search.Search.SAFESEARCH_STRICT
         );
         imageSearch.execute(word);
+    }
+}
+
+function searchLucky() {
+    random_search = true;
+    $("#select_btn_label").html("Next pun");
+    words = document.getElementById("search_bar").value.split(" ");
+    images = [];
+    for (var i = 0; i < words.length; i++) {
+        images[i] = [];
+    }
+    called = 0
+    for (var i = 0; i < words.length; i++) {
+        var word = words[i]
+        var imageSearch = new google.search.ImageSearch();
+        imageSearch.setResultSetSize(RESULTS_NUM);
+        imageSearch.setSearchCompleteCallback(this, searchCompleteLucky, [imageSearch, i]);
+        imageSearch.setRestriction(
+            google.search.ImageSearch.RESTRICT_IMAGESIZE,
+            google.search.ImageSearch.IMAGESIZE_MEDIUM);
+        imageSearch.setRestriction(
+          google.search.Search.RESTRICT_SAFESEARCH,
+          google.search.Search.SAFESEARCH_STRICT
+        );
+        imageSearch.execute(word);
+    }
+}
+
+function displayFlipPun() {
+    if (random_search) {
+        displayRandomPun();
+    } else {
+        displayPun();
     }
 }
 

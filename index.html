@@ -10,7 +10,7 @@
 	<meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Yelp punerator</title>
+	<title>Punerator</title>
 
 	<!-- Load css styles -->
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
@@ -38,6 +38,7 @@
                                 <div id="search_div">
                                     <input type='text' placeholder="Search..." id="search_bar" style="color: #000000;">
                                     <input type='button' id="search_button" value='Search' onClick='search()'>
+                                    <input type='button' id="lucky_button" value='I'm Feeling Lucky' onClick='searchLucky()'>
                                 </div>
 				<!--<a href="#" class="btn btn-primary">Get in Touche</a>-->
 			</div>
@@ -51,8 +52,8 @@
 
 				<div class="col-md-4" style="width: 100%">
 					<div class="service-item" id="select_button">
-						<div class="icon"><i class="fa fa-life-ring" onClick='displayPun()'></i></div>
-						<h3>Click to create your cool graphical pun</h3>
+						<div class="icon"><i class="fa fa-life-ring" onClick='displayFlipPun()'></i></div>
+						<h3 id="select_btn_label">Click to create your cool graphical pun</h3>
 					</div>
 				</div>
 			</div>
